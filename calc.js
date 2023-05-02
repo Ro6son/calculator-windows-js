@@ -14,7 +14,7 @@ const raiz = document.getElementById("raiz");
 const nums = document.querySelectorAll("[id*=num]");
 const operadores = document.querySelectorAll("[id*=sinal]");
 
-// Declaração de variáveis / Estado
+// Variaveis de Estado
 let primeiro = true;
 let operador;
 let numeroAnterior = "0";
@@ -36,25 +36,59 @@ const limpaDisplay = () => {
 };
 
 const calcular = () => {
-  if (numeroAnterior && operador) {
-    let result = `${numeroAnterior}${operador}${numeroAtual || numeroAnterior}`;
-    let resultadoFinal = eval(result.replace(",", ".")).toString();
-    if (resultadoFinal === "NaN") {
-      resultadoFinal = "0";
-    }
-    atualizaDisplay(resultadoFinal);
-    numeroAnterior = resultadoFinal;
-    primeiro = true;
+  if (!numeroAnterior || !operador) {
+    return;
   }
+
+  const numeroAnteriorFloat = parseFloat(numeroAnterior.replace(",", "."));
+  const numeroAtualFloat = numeroAtual
+    ? parseFloat(numeroAtual.replace(",", "."))
+    : numeroAnteriorFloat;
+
+  let resultado = 0;
+  switch (operador) {
+    case "+":
+      resultado = numeroAnteriorFloat + numeroAtualFloat;
+      break;
+    case "-":
+      resultado = numeroAnteriorFloat - numeroAtualFloat;
+      break;
+    case "*":
+      resultado = numeroAnteriorFloat * numeroAtualFloat;
+      break;
+    case "/":
+      if (numeroAtualFloat === 0) {
+        atualizaDisplay("Erro");
+        return;
+      }
+      resultado = numeroAnteriorFloat / numeroAtualFloat;
+      break;
+    default:
+      return;
+  }
+
+  const resultadoFinal = resultado.toString().replace(".", ",");
+  atualizaDisplay(resultadoFinal);
+  numeroAnterior = resultadoFinal;
+  primeiro = true;
 };
 
 const apagarUltimo = () => {
-  if (display.textContent.length > 1) {
-    atualizaDisplay(display.textContent.slice(0, -1));
+  const conteudoDisplay = display.textContent;
+
+  if (typeof conteudoDisplay !== "string") {
+    return;
+  }
+
+  const novoValor = conteudoDisplay.length > 1 ? conteudoDisplay.substring(0, conteudoDisplay.length - 1) : "0";
+
+  if (/^[0-9]+(,[0-9]+)?$/.test(novoValor)) {
+    atualizaDisplay(novoValor);
   } else {
-    limpaDisplay();
+    atualizaDisplay("0");
   }
 };
+
 
 const inverteSinal = () => {
   atualizaDisplay(parseFloat(display.textContent.replace(",", ".")) * -1);
@@ -112,7 +146,7 @@ operadores.forEach((operadorBtn) => {
     primeiro = true;
   });
 });
-// Adição de listeners aos botões de ação do calculadora
+
 igual.addEventListener("click", () => {
   calcular();
   ajustaPontoVirgula();
@@ -162,162 +196,299 @@ raiz.addEventListener("click", () => {
 
 // -----End ----> //
 
-// # Project: Calculator Windows - https://github.com/WilliamDosSantos/Calculadora
+// Código comentado:
 
-// const display = document.getElementById('display')
-// const displayText = document.getElementById('display').textContent
-// const igual = document.getElementById('igual')
-// const apagar = document.getElementById('apagar')
-// const maismenos = document.getElementById('maismenos')
-// const limparCalculo = document.getElementById('limparCalculo')
-// const limparTudo = document.getElementById('limparTudo')
-// const porc = document.getElementById('porc')
-// const virg = document.getElementById('virg')
-// const divisaoUm = document.getElementById('divisaoUm')
-// const potencia = document.getElementById('potencia')
-// const raiz = document.getElementById('raiz')
+// As variáveis do tipo Elemento do DOM como: display, igual, apagar, maismenos, limparCalculo, limparTudo, porc, virg, divisaoUm, potencia e raiz
+//são declaradas para armazenar as referências a elementos HTML do documento que serão manipulados pelo programa.
 
-// const nums = document.querySelectorAll("[id*=num]")
-// const operadores = document.querySelectorAll("[id*=sinal]")
+// Seleção dos elementos do DOM
+// const display = document.getElementById("display");
+// const igual = document.getElementById("igual");
+// const apagar = document.getElementById("apagar");
+// const maismenos = document.getElementById("maismenos");
+// const limparCalculo = document.getElementById("limparCalculo");
+// const limparTudo = document.getElementById("limparTudo");
+// const porc = document.getElementById("porc");
+// const virg = document.getElementById("virg");
+// const divisaoUm = document.getElementById("divisaoUm");
+// const potencia = document.getElementById("potencia");
+// const raiz = document.getElementById("raiz");
 
-// let primeiro = true
-// let operador
-// let numeroAnterior
-// let numeroAtual
-// let apagarIgual
+// As variáveis 'nums' e 'operadores' são declaradas para armazenar as referências a elementos HTML do documento que representam botões de números e
+//operadores aritméticos, respectivamente.
 
-// const ajustaPontoVirgula = () => display.textContent = display.textContent.replace('.', ',')
+// const nums = document.querySelectorAll("[id*=num]");
+// const operadores = document.querySelectorAll("[id*=sinal]");
 
-// const inserirDisplay = text => {
+// Variaveis de Estado
 
-//   if (primeiro) {
-//     display.textContent = text
-//     primeiro = false
-//   } else {
-//     display.textContent += text
-//   }
+// As variáveis primeiro, operador, numeroAnterior e numeroAtual são variáveis de estado do programa que são utilizadas para armazenar informações
+// sobre o estado atual do cálculo que está sendo realizado. Elas são atualizadas pelo programa à medida que o usuário interage com a calculadora.
+// Por exemplo, primeiro é utilizado para indicar se o próximo dígito inserido pelo usuário será o primeiro dígito do número que está sendo digitado.
+//operador armazena o operador aritmético que foi selecionado pelo usuário para realizar a operação. numeroAnterior e numeroAtual armazenam os valores
+//numéricos que serão utilizados para realizar a operação aritmética.
 
-//   display.textContent = display.textContent.substring(0, 17)
-//   numeroAtual = display.textContent
-//   apagarIgual = true
-// }
+// let primeiro = true;
+// let operador;
+// let numeroAnterior = "0";
+// let numeroAtual = "0";
 
-// const inserir = e => inserirDisplay(e.target.textContent)
+// // Funções auxiliares
 
-// nums.forEach(e => e.addEventListener('click', inserir))
+// <--------------------------//----------------------------------->
+// const ajustaPontoVirgula = () => {
+//   display.textContent = display.textContent.replace(".", ",");
+// };
 
+//Note: Este trecho de código é uma função JavaScript chamada ajustaPontoVirgula. Ele tem a finalidade de substituir pontos por vírgulas
+//no conteúdo de um elemento HTML, especificamente o elemento com o ID display. A função é atribuída a uma constante e é definida como
+//uma arrow function sem parâmetros.
 
-// const inserirOperador = e => {
-//   primeiro = true
-//   operador = e.target.textContent
-//   if (operador == 'x') {
-//     operador = '*'
-//   } else if (operador == '÷') {
-//     operador = '/'
-//   }
-//   numeroAnterior = display.textContent
-// }
+// Pontos positivos:
+// O código é simples e fácil de entender.
+// A função é pequena e faz apenas uma tarefa específica, o que torna mais fácil sua manutenção e reutilização.
+// Usa uma abordagem funcional para fazer a substituição, o que pode ser útil em algumas situações.
+// Usa a propriedade textContent em vez da propriedade innerHTML, o que é uma boa prática de segurança para evitar ataques XSS (cross-site scripting)
 
-// operadores.forEach(e => e.addEventListener('click', inserirOperador))
+// Pontos negativos:
+// O código não verifica se o elemento com o ID display existe ou não, o que pode gerar erros se o elemento não for encontrado.
+// A função só funciona para substituir pontos por vírgulas, então se for necessário fazer outras substituições, será necessário criar outra função ou
+// modificar esta função existente.
+// A substituição pode não funcionar em alguns casos, como por exemplo se o texto contiver mais de um ponto. Seria necessário usar uma expressão regular
+// para substituir todas as ocorrências.
+
+// <--------------------------//----------------------------------->
+
+// <--------------------------//----------------------------------->
+// const atualizaDisplay = (valor) => {
+//   display.textContent = valor;
+//   numeroAtual = display.textContent;
+// };
+
+// Esse trecho de código define uma função chamada atualizaDisplay que recebe um parâmetro valor. Essa função atualiza o conteúdo do elemento de texto display.textContent com o valor passado como parâmetro e atualiza também uma variável chamada numeroAtual com o mesmo valor.
+
+// Pontos positivos:
+
+// A função tem um nome autoexplicativo que indica claramente o que ela faz.
+// A função recebe um parâmetro, o que permite que diferentes valores possam ser passados para atualizar o conteúdo do elemento display.
+// A função atualiza não só o textContent do elemento display, mas também a variável numeroAtual, o que evita a necessidade de buscar o valor atual do textContent toda vez que ele for necessário em outra parte do código.
+// Pontos negativos:
+
+// A função não possui validação de entrada, ou seja, não verifica se o parâmetro valor passado é do tipo correto ou se está vazio.
+// A função utiliza uma variável global numeroAtual, o que pode tornar mais difícil entender e depurar o código em casos mais complexos. É recomendável limitar o escopo das variáveis o máximo possível.
+// A função não retorna nenhum valor, o que pode tornar mais difícil testar e depurar o código em casos mais complexos. É recomendável que a função retorne um valor para que ele possa ser utilizado em outras partes do código
+
+// <--------------------------//----------------------------------->
+
+// <--------------------------//----------------------------------->
+// const limpaDisplay = () => {
+//     atualizaDisplay("0");
+//     primeiro = true;
+//   };
+
+// Esse trecho de código define uma função chamada limpaDisplay que tem como objetivo definir o valor "0" no display da calculadora e resetar a variável primeiro para o valor true.
+
+// Pontos positivos:
+
+// O código é simples e fácil de entender. A função limpaDisplay é curta e bem definida.
+// O uso da função atualizaDisplay faz com que a atualização do valor do display esteja centralizada em uma única função, tornando o código mais organizado e fácil de manter.
+// A variável primeiro é reiniciada para o valor true, o que garante que o próximo número digitado seja tratado como o primeiro da operação.
+// Pontos negativos:
+
+// O código não possui nenhuma verificação ou tratamento de erro, o que pode levar a resultados indesejados em caso de uso inadequado da função.
+// A função não permite que o usuário escolha um valor inicial diferente de "0". Caso fosse desejável, seria necessário incluir um parâmetro para a função que permitisse a escolha do valor inicial.
+
+// <--------------------------//----------------------------------->
 
 // const calcular = () => {
-
-//   if (numeroAnterior && operador) {
-//     let result = numeroAnterior + operador
-
-//     if(numeroAtual) {
-//       result += numeroAtual
-//     } else {
-//       result += numeroAnterior
-//     }
-
-//     display.textContent = eval(result.replace(',', '.'))
-//     ajustaPontoVirgula()
-
-//     if (display.textContent == 'NaN') {
-//       display.textContent = '0'
-//     }
-
-//     numeroAnterior = display.textContent
-//     primeiro = true
-//     apagarIgual = false
+//   if (!numeroAnterior || !operador) {
+//     return;
 //   }
-// }
 
-// igual.addEventListener('click', calcular)
+//   const numeroAnteriorFloat = parseFloat(numeroAnterior.replace(",", "."));
+//   const numeroAtualFloat = numeroAtual ? parseFloat(numeroAtual.replace(",", ".")) : numeroAnteriorFloat;
+
+//   let resultado = 0;
+//   switch (operador) {
+//     case "+":
+//       resultado = numeroAnteriorFloat + numeroAtualFloat;
+//       break;
+//     case "-":
+//       resultado = numeroAnteriorFloat - numeroAtualFloat;
+//       break;
+//     case "*":
+//       resultado = numeroAnteriorFloat * numeroAtualFloat;
+//       break;
+//     case "/":
+//       if (numeroAtualFloat === 0) {
+//         atualizaDisplay("Erro");
+//         return;
+//       }
+//       resultado = numeroAnteriorFloat / numeroAtualFloat;
+//       break;
+//     default:
+//       return;
+//   }
+
+//   const resultadoFinal = resultado.toString().replace(".", ",");
+//   atualizaDisplay(resultadoFinal);
+//   numeroAnterior = resultadoFinal;
+//   primeiro = true;
+// };
+
+// O código acima é responsável por realizar os cálculos da calculadora. Ele recebe os valores armazenados em "numeroAnterior", "numeroAtual" e "operador", faz as operações matemáticas correspondentes e atualiza o display com o resultado.
+
+// Pontos positivos:
+
+// O código apresenta uma lógica mais simples e mais clara, utilizando menos condições e removendo o uso da função eval, o que torna o código mais seguro e eficiente;
+// As operações matemáticas são realizadas em variáveis distintas, o que aumenta a legibilidade do código.
+
+// Pontos negativos:
+
+// Ainda é possível melhorar a legibilidade e a clareza do código, por exemplo, utilizando nomes de variáveis mais descritivos e removendo variáveis desnecessárias.
+// O código ainda possui a possibilidade de gerar resultados inesperados em algumas operações, como a divisão por zero, que não é tratada adequadamente.
+
+// <--------------------------//----------------------------------->
 
 // const apagarUltimo = () => {
-//   if (apagarIgual) {
-//     if (display.textContent.length > 1) {
-//       display.textContent = display.textContent.slice(0, -1)
-//     } else {
-//       display.textContent = 0
-//     }
-    
-//     primeiro = true
+//   const novoValor = display.textContent.slice(0, -1);
+//   if (novoValor.length > 0) {
+//     atualizaDisplay(novoValor);
+//   } else {
+//     limpaDisplay();
 //   }
-// }
+// };
 
-// apagar.addEventListener('click', apagarUltimo)
+// Este código define uma função chamada apagarUltimo, que tem como objetivo apagar o último caractere do valor exibido no display da calculadora.
+
+// Pontos positivos:
+
+// O código é curto e fácil de entender, já que utiliza métodos nativos do JavaScript para remover o último caractere de uma string.
+// A função verifica se o comprimento da string é maior que 1 antes de remover o último caractere, para evitar que o display fique vazio.
+// Caso o display contenha apenas um caractere, a função chama a função limpaDisplay, o que garante que o display será reiniciado corretamente.
+
+// Pontos negativos:
+
+// Não há tratamento para caracteres inválidos que possam estar no final do valor exibido. Por exemplo, se o usuário digitar "2+2" e, em seguida, pressionar o botão "apagar último", o valor exibido passará de "2+2" para "2+". Isso pode confundir o usuário, que pode esperar que a função apague apenas o último número digitado.
+// A função utiliza métodos como textContent e slice, que podem ser afetados por questões de segurança, como a injeção de scripts maliciosos (XSS). No entanto, esse não é um problema grave neste caso, já que o código apenas manipula dados internos da aplicação e não há interação direta com o usuário.
+
+// <--------------------------//----------------------------------->
 
 // const inverteSinal = () => {
-//   display.textContent = parseFloat(display.textContent.replace(',', '.')) * -1
-//   ajustaPontoVirgula()
-// }
+//   atualizaDisplay(parseFloat(display.textContent.replace(",", ".")) * -1);
+// };
 
-// maismenos.addEventListener('click', inverteSinal)
-
-// const limpaCalculo = () => {
-//   display.textContent = '0'
-//   primeiro = true
-// }
-
-// limparCalculo.addEventListener('click', limpaCalculo)
-
-// const limpaTudo = () => {
-//   display.textContent = '0'
-//   numeroAnterior = '0'
-//   numeroAtual = '0'
-//   primeiro = true
-// }
-
-// limparTudo.addEventListener('click', limpaTudo)
+// <--------------------------//----------------------------------->
 
 // const calcPorc = () => {
-//   display.textContent = parseFloat(display.textContent.replace(',', '.')) / 100
-//   ajustaPontoVirgula()
-//   numeroAtual = display.textContent
-//   primeiro = true
-// }
+//   atualizaDisplay(parseFloat(display.textContent.replace(",", ".")) / 100);
+//   primeiro = true;
+// };
 
-// porc.addEventListener('click', calcPorc)
+// <--------------------------//----------------------------------->
 
 // const calcDivisaoUm = () => {
-//   display.textContent = 1 / parseFloat(display.textContent.replace(',', '.')) 
-//   ajustaPontoVirgula()
-//   numeroAtual = display.textContent
-//   numeroAnterior = '0'
-//   primeiro = true
-// }
+//   atualizaDisplay(1 / parseFloat(display.textContent.replace(",", ".")));
+//   numeroAnterior = "0";
+//   primeiro = true;
+// };
 
-// divisaoUm.addEventListener('click', calcDivisaoUm)
+// <--------------------------//----------------------------------->
 
 // const calcPotencia = () => {
-//   display.textContent = Math.pow(parseFloat(display.textContent.replace(',', '.')), 2)
-//   ajustaPontoVirgula()
-//   numeroAtual = display.textContent
-//   numeroAnterior = '0'
-//   primeiro = true
-// }
+//   atualizaDisplay(
+//     Math.pow(parseFloat(display.textContent.replace(",", ".")), 2).toString()
+//   );
+//   numeroAnterior = "0";
+//   primeiro = true;
+// };
 
-// potencia.addEventListener('click', calcPotencia)
+// <--------------------------//----------------------------------->
 
 // const calcRaiz = () => {
-//   display.textContent = Math.sqrt(parseFloat(display.textContent.replace(',', '.')))
-//   ajustaPontoVirgula()
-//   numeroAtual = display.textContent
-//   numeroAnterior = '0'
-//   primeiro = true
-// }
+//   atualizaDisplay(
+//     Math.sqrt(parseFloat(display.textContent.replace(",", "."))).toString()
+//   );
+//   numeroAnterior = "0";
+//   primeiro = true;
+// };
 
-// raiz.addEventListener('click', calcRaiz)
+// <--------------------------//----------------------------------->
+
+// // Esse trecho de código é responsável por adicionar "event listeners" ao DOM. Essa adição permite que
+// //o programa da calculadora responda às interações do usuário e atualize o visor com os resultados dos cálculos.
+
+// // Adição de listeners aos elementos do DOM
+// nums.forEach((num) => {
+//   num.addEventListener("click", () => {
+//     if (primeiro) {
+//       atualizaDisplay(num.textContent);
+//       primeiro = false;
+//     } else {
+//       atualizaDisplay(`${display.textContent}${num.textContent}`);
+//     }
+//     display.textContent = display.textContent.substring(0, 17);
+//   });
+// });
+
+// operadores.forEach((operadorBtn) => {
+//   operadorBtn.addEventListener("click", () => {
+//     operador = operadorBtn.textContent;
+//     if (operador === "x") {
+//       operador = "*";
+//     } else if (operador === "÷") {
+//       operador = "/";
+//     }
+//     numeroAnterior = display.textContent;
+//     primeiro = true;
+//   });
+// });
+
+// igual.addEventListener("click", () => {
+//   calcular();
+//   ajustaPontoVirgula();
+// });
+
+// apagar.addEventListener("click", () => {
+//   apagarUltimo();
+// });
+
+// maismenos.addEventListener("click", () => {
+//   inverteSinal();
+// });
+
+// limparCalculo.addEventListener("click", () => {
+//   atualizaDisplay("0");
+//   primeiro = true;
+// });
+
+// limparTudo.addEventListener("click", () => {
+//   atualizaDisplay("0");
+//   operador = undefined;
+//   numeroAnterior = "0";
+//   primeiro = true;
+// });
+
+// porc.addEventListener("click", () => {
+//   calcPorc();
+// });
+
+// virg.addEventListener("click", () => {
+//   if (display.textContent.indexOf(".") === -1) {
+//     atualizaDisplay(`${display.textContent}.`);
+//   }
+// });
+
+// divisaoUm.addEventListener("click", () => {
+//   calcDivisaoUm();
+// });
+
+// potencia.addEventListener("click", () => {
+//   calcPotencia();
+// });
+
+// raiz.addEventListener("click", () => {
+//   calcRaiz();
+// });
+
+// # Inspirado pelo Project: Calculator Windows - https://github.com/WilliamDosSantos/Calculadora
