@@ -63,11 +63,17 @@
 
 // <--------------------------//----------------------------------->
 // const atualizaDisplay = (valor) => {
-//   display.textContent = valor;
-//   numeroAtual = display.textContent;
-// };
+//     display.textContent = valor.substring(0, 17);
+//     numeroAtual = display.textContent;
+//   };
 
-// Esse trecho de código define uma função chamada atualizaDisplay que recebe um parâmetro valor. Essa função atualiza o conteúdo do elemento de texto display.textContent com o valor passado como parâmetro e atualiza também uma variável chamada numeroAtual com o mesmo valor.
+// Esse trecho de código define uma função chamada atualizaDisplay que recebe um parâmetro chamado valor. A função realiza duas ações:
+// Atualiza o texto do elemento display (provavelmente um elemento HTML) com uma substring de valor que começa no índice 0 e termina no índice 16 (17 caracteres no total). A função substring é usada para extrair uma parte do texto de uma string. Isso significa que o texto do display será atualizado com os primeiros 17 caracteres do valor passado para a função atualizaDisplay.
+// Atribui o valor atualizado do display à variável numeroAtual.
+
+// Essa função pode ser útil em uma situação em que você precisa exibir um valor em uma área de exibição limitada (como uma calculadora), onde você deseja limitar o número de caracteres exibidos. O código faz isso pegando apenas os primeiros 17 caracteres do valor e exibindo-os no display.
+
+// No entanto, se a string passada para a função tiver menos de 17 caracteres, a função simplesmente exibirá a string completa no display. Além disso, o código assume que existe uma variável chamada numeroAtual que está sendo atualizada com o valor do display. Sem ver o restante do código, não é possível dizer exatamente como essa variável é usada ou se é realmente necessária.
 
 // Pontos positivos:
 

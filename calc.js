@@ -26,7 +26,7 @@ const ajustaPontoVirgula = () => {
 };
 
 const atualizaDisplay = (valor) => {
-  display.textContent = valor;
+  display.textContent = valor.substring(0, 17);
   numeroAtual = display.textContent;
 };
 
@@ -124,6 +124,18 @@ const calcRaiz = () => {
 };
 
 // Adição de listeners aos elementos do DOM
+// nums.forEach((num) => {
+//   num.addEventListener("click", () => {
+//     if (primeiro) {
+//       atualizaDisplay(num.textContent);
+//       primeiro = false;
+//     } else {
+//       atualizaDisplay(`${display.textContent}${num.textContent}`);
+//     }
+//     display.textContent = display.textContent.substring(0, 17);
+//   });
+// });
+
 nums.forEach((num) => {
   num.addEventListener("click", () => {
     if (primeiro) {
@@ -132,7 +144,6 @@ nums.forEach((num) => {
     } else {
       atualizaDisplay(`${display.textContent}${num.textContent}`);
     }
-    display.textContent = display.textContent.substring(0, 17);
   });
 });
 
@@ -196,6 +207,7 @@ raiz.addEventListener("click", () => {
   calcRaiz();
 });
 
-// # Inspirado pelo Project: Calculator Windows - https://github.com/WilliamDosSantos/Calculadora
 
 // -----End ----> //
+
+// # Inspirado pelo Project: Calculator Windows - https://github.com/WilliamDosSantos/Calculadora
