@@ -27,7 +27,7 @@ I created functions that perform more advanced math operations like square root 
 I learned how to work with rounding decimal numbers;<br>
 I learned how to create an interactive application that responds to user actions;<br>
 
-# Contribuição 🚀
+# Contribution 🚀
 If you'd like to contribute to the project, feel free to open an issue or pull request on the GitHub repository. If you find any bugs or have any suggestions for improvement, please leave a comment. Tks!<br>
 
 ![image](https://user-images.githubusercontent.com/91978309/235514661-be31d7ba-e0ec-4c02-9668-eff596e42ed8.png)
