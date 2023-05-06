@@ -1,10 +1,10 @@
-// Seleção dos elementos do DOM
+// Selection of DOM elements
 const display = document.getElementById("display");
 const igual = document.getElementById("igual");
-const apagar = document.getElementById("apagar");
+const turnOff = document.getElementById("turnOff");
 const maismenos = document.getElementById("maismenos");
-const limparCalculo = document.getElementById("limparCalculo");
-const limparTudo = document.getElementById("limparTudo");
+const cancelEntry = document.getElementById("cancelEntry");
+const clear = document.getElementById("clear");
 const porc = document.getElementById("porc");
 const virg = document.getElementById("virg");
 const divisaoUm = document.getElementById("divisaoUm");
@@ -14,19 +14,19 @@ const raiz = document.getElementById("raiz");
 const nums = document.querySelectorAll("[id*=num]");
 const operadores = document.querySelectorAll("[id*=sinal]");
 
-// Variaveis de Estado
+// State Variables
 let primeiro = true;
 let operador;
 let numeroAnterior = "0";
 let numeroAtual = "0";
 
-// Funções auxiliares
+// Aux functions
 const ajustaPontoVirgula = () => {
   display.textContent = display.textContent.replace(".", ",");
 };
 
 const atualizaDisplay = (valor) => {
-  display.textContent = valor.substring(0, 17);
+  display.textContent = valor;
   numeroAtual = display.textContent;
 };
 
@@ -73,7 +73,7 @@ const calcular = () => {
   primeiro = true;
 };
 
-const apagarUltimo = () => {
+const turnOffLast = () => {
   const conteudoDisplay = display.textContent;
 
   if (typeof conteudoDisplay !== "string") {
@@ -123,19 +123,7 @@ const calcRaiz = () => {
   primeiro = true;
 };
 
-// Adição de listeners aos elementos do DOM
-// nums.forEach((num) => {
-//   num.addEventListener("click", () => {
-//     if (primeiro) {
-//       atualizaDisplay(num.textContent);
-//       primeiro = false;
-//     } else {
-//       atualizaDisplay(`${display.textContent}${num.textContent}`);
-//     }
-//     display.textContent = display.textContent.substring(0, 17);
-//   });
-// });
-
+// Adding Listeners to DOM Elements
 nums.forEach((num) => {
   num.addEventListener("click", () => {
     if (primeiro) {
@@ -144,6 +132,7 @@ nums.forEach((num) => {
     } else {
       atualizaDisplay(`${display.textContent}${num.textContent}`);
     }
+    display.textContent = display.textContent.substring(0, 17);
   });
 });
 
@@ -165,20 +154,20 @@ igual.addEventListener("click", () => {
   ajustaPontoVirgula();
 });
 
-apagar.addEventListener("click", () => {
-  apagarUltimo();
+turnOff.addEventListener("click", () => {
+  turnOffLast();
 });
 
 maismenos.addEventListener("click", () => {
   inverteSinal();
 });
 
-limparCalculo.addEventListener("click", () => {
+cancelEntry.addEventListener("click", () => {
   atualizaDisplay("0");
   primeiro = true;
 });
 
-limparTudo.addEventListener("click", () => {
+clear.addEventListener("click", () => {
   atualizaDisplay("0");
   operador = undefined;
   numeroAnterior = "0";
@@ -197,6 +186,7 @@ virg.addEventListener("click", () => {
 
 divisaoUm.addEventListener("click", () => {
   calcDivisaoUm();
+  ajustaPontoVirgula();
 });
 
 potencia.addEventListener("click", () => {
@@ -206,7 +196,6 @@ potencia.addEventListener("click", () => {
 raiz.addEventListener("click", () => {
   calcRaiz();
 });
-
 
 // -----End ----> //
 

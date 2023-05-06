@@ -182,9 +182,9 @@
 
 // <--------------------------//----------------------------------->
 
-// const inverteSinal = () => {
-//   atualizaDisplay(parseFloat(display.textContent.replace(",", ".")) * -1);
-// };
+const inverteSinal = () => {
+  atualizaDisplay(parseFloat(display.textContent.replace(",", ".")) * -1);
+};
 
 // <--------------------------//----------------------------------->
 
@@ -200,6 +200,14 @@
 //   numeroAnterior = "0";
 //   primeiro = true;
 // };
+
+// atualizaDisplay(1 / parseFloat(display.textContent.replace(",", "."))); - Esta instrução realiza a divisão de 1 pelo número atualmente exibido no display, substituindo a vírgula por ponto (caso exista) antes de fazer a conversão para número de ponto flutuante. O resultado é então atualizado no display usando a função atualizaDisplay.
+
+// numeroAnterior = "0"; - Esta instrução define o valor da variável numeroAnterior como "0", o que indica que não há nenhum número anteriormente salvo na memória da calculadora.
+
+// primeiro = true; - Esta instrução define a variável primeiro como true, indicando que o próximo número digitado será o primeiro de uma nova operação.
+
+// Em resumo, essa função calcula o resultado da divisão de 1 pelo número atualmente exibido no display da calculadora, atualiza o display com o resultado e redefine as variáveis numeroAnterior e primeiro.
 
 // <--------------------------//----------------------------------->
 

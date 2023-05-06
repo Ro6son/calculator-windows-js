@@ -35,7 +35,7 @@
     box-shadow: -3px 3px 10px 3px rgb(105, 103, 103);
   }
   
-  .calc-botoes {
+  .calcBtn {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-gap: 2px;
